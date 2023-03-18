@@ -18,9 +18,9 @@ export function Code(props: Code) {
 		wrapLongLines={true}
 		customStyle={{ tabSize: 1, lineHeight: 1.5 }} >
 		{content
-			.replace(/```[a-zA-Z0-9]{0,}\r\n/gi, '')
+			.replace(/```[a-zA-Z0-9]{0,}\r?\n/gi, '')
 			.replace('```','')
-			.replace(/\r\n$/gi, '')
+			.replace(/\r?\n$/gi, '')
 		}
 	</SyntaxHighlighter>
 }

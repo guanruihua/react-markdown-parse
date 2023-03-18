@@ -1,29 +1,56 @@
 /* eslint-disable*/
-import { HeaderRegExp, Header } from "../header"
-import { Code } from '../code'
 import React from "react"
-
-export interface LineFormat {
-	children: string
-}
-
-export function LineFormat(props: LineFormat) {
-	const { children } = props
-	return <div className="line">{children}</div>
-}
+import { MTable } from "../mTable"
+import { Code } from '../code'
+import { isEffectArray } from "check-it-type"
+import { LineFormat } from '../line'
+import { Block } from '../block'
+import { HeaderRegExp, Header } from "../header"
 
 export function format(text: string) {
-	
-	const lines: string[] = text.split(/\r\n/)
+
+	const lines: string[] = text.split(/\r\n|\n/)
 	const renderContent: React.ReactNode[] = []
 
+	// 代码块
 	let codeTempList: string[] = []
 	let codeLang = undefined
 	let isCodeBlock: boolean = false
 
+	// 表格
+	let isTable: boolean = false
+	let tableTempList: string[] = []
+
 	for (let i = 0; i < lines.length; i++) {
 		const line = lines[i]
+		// console.log(line)
 
+		/** table start **/
+		if (isTable && line.indexOf('|') > -1) {
+			tableTempList.push(line)
+			continue;
+		}
+
+		if (isTable && line.indexOf('|') === -1) {
+			isTable = false
+			renderContent.push(
+				<MTable key={'table' + i} >{tableTempList.join('\n')}</MTable>
+			)
+			tableTempList = []
+		}
+
+		if (isTable === false && /^\|?(\s?:?-{2,}:?\s?\|?){1,}/.test(line)) {
+			if (lines.length > 0 && lines[i - 1].indexOf('|') > -1) {
+				isTable = true
+				isEffectArray(renderContent) && renderContent.pop()
+				tableTempList.push(lines[i - 1])
+				tableTempList.push(line)
+				continue;
+			}
+		}
+		/** table end **/
+
+		/** code start **/
 		if (/^```[a-zA-Z0-9]{0,}/.test(line)) {
 			if (isCodeBlock === true) {
 				isCodeBlock = false
@@ -42,13 +69,17 @@ export function format(text: string) {
 			codeTempList.push(line)
 			continue;
 		}
+		/** code end **/
 
-		let lineDom = <LineFormat key={i}>{line}</LineFormat>
-		if (HeaderRegExp.test(line)) {
-			lineDom = <Header key={i}>{line}</Header>
+		let renderLineDom = <LineFormat key={i}>{line}</LineFormat>
+
+		if (/^>\s/.test(line)) {
+			renderLineDom = <Block key={i}>{line}</Block>
 		}
-
-		renderContent.push(lineDom)
+		if (HeaderRegExp.test(line)) {
+			renderLineDom = <Header key={i}>{line}</Header>
+		}
+		renderContent.push(renderLineDom)
 	}
 
 

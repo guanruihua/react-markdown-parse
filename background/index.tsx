@@ -14,6 +14,7 @@ const menu: MenuObject[] = [
 			{ name: 'Header', element: lazyLoad(import('../src/header/demo')) },
 			{ name: 'Code', element: lazyLoad(import('../src/code/demo')) },
 			{ name: 'Block', element: lazyLoad(import('../src/block/demo')) },
+			{ name: 'Table', element: lazyLoad(import('../src/mTable/demo')) },
 		],
 
 	})
