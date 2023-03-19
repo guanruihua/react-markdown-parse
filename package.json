@@ -1,6 +1,6 @@
 {
   "name": "react-markdown-parse",
-  "version": "0.0.1-beta.0",
+  "version": "0.0.1-beta.1",
   "description": "npm 方法 工具包 模板",
   "author": "ruihuag",
   "module": "lib/index.esm.js",
