@@ -4,12 +4,13 @@ import './index.less'
 
 export interface Markdown {
 	children: string
+	path?: string
 }
 
 export function Markdown(props: Markdown) {
-	const { children } = props
+	const { children, path } = props
 
 	return <div>
-		{format(children)}
+		{format(children, { path })}
 	</div>
 }

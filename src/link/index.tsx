@@ -1,19 +1,22 @@
 import React from "react"
 import { LineFormat } from '../line'
 
-
 export interface Link {
 	children: string
+	path?: string
 }
 
 export function Link(props: Link) {
-	const { children } = props
+	const { children, path } = props
 
-	console.log(children)
-	if (/^\!\[.*\]\(.*\)$/.test(children)) {
-		const list = /^\!\[.{0,}\]\(.{0,}\)$/.exec(children) || []
-		console.log(list)
+	if (/^\[.*\]\(.*\)$/.test(children)) {
+		const [, text, url] = /^\[(.*)\]\((.*)\)$/.exec(children) || ['', '', '']
+		return <a href={url}>
+			<LineFormat path={path}>
+				{text}
+			</LineFormat>
+		</a>
 	}
 
-	return <LineFormat>{children}</LineFormat>
+	return <LineFormat path={path}>{children}</LineFormat>
 }

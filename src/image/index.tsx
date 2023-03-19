@@ -8,7 +8,9 @@ export interface MImage {
 
 export function resolveImgPath(path: string | undefined, custom: string) {
 	if (isUndefined(path)) return custom
-	return path.replace(/\/$/, '') + '/' + custom.replace(/(^\.)|(^\.\/)/, '')
+	const newUrl = path.replace(/\/$/, '') + '/' + custom.replace(/(^\.)|(^\.\/)/, '')
+
+	return newUrl
 }
 
 export function MImage(props: MImage) {

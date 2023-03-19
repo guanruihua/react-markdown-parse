@@ -37,9 +37,9 @@ const devConfig = {
 				{
 					// from: path.resolve(__dirname, '../src'),
 					from: 'src',
-					to: 'dist',
+					// to: 'dist',
 					// to: path.resolve(__dirname, '../public'),
-					// to: path.resolve(__dirname, '../dist'),
+					to: path.resolve(__dirname, '../dist'),
 					globOptions: {
 						ignore: [
 							'**.tsx', '**.js', '**.ts', '**.less', '**.css', '**.module.less', '**.d.ts', '**.json', '**.md'

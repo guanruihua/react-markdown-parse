@@ -7,8 +7,13 @@ import { LineFormat } from '../line'
 import { Block } from '../block'
 import { HeaderRegExp, Header } from "../header"
 
-export function format(text: string) {
+export interface FormatConfig {
+	path?: string
+}
 
+export function format(text: string, config: FormatConfig = {}) {
+
+	const { path } = config
 	const lines: string[] = text.split(/\r\n|\n/)
 	const renderContent: React.ReactNode[] = []
 
@@ -23,7 +28,6 @@ export function format(text: string) {
 
 	for (let i = 0; i < lines.length; i++) {
 		const line = lines[i]
-		// console.log(line)
 
 		/** table start **/
 		if (isTable && line.indexOf('|') > -1) {
@@ -71,7 +75,7 @@ export function format(text: string) {
 		}
 		/** code end **/
 
-		let renderLineDom = <LineFormat key={i}>{line}</LineFormat>
+		let renderLineDom = <LineFormat path={path} key={i}>{line}</LineFormat>
 
 		if (/^>\s/.test(line)) {
 			renderLineDom = <Block key={i}>{line}</Block>
