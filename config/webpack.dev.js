@@ -1,8 +1,9 @@
-const Webpack = require('webpack');
-const WebpackDevServer = require('webpack-dev-server');
-const webpackConfig = require('./webpack.base.js');
-const ESLintPlugin = require('eslint-webpack-plugin');
 const path = require('path')
+const Webpack = require('webpack')
+const WebpackDevServer = require('webpack-dev-server')
+const webpackConfig = require('./webpack.base.js')
+const ESLintPlugin = require('eslint-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 require('./env/tsconfig/index')('dev')
 
@@ -23,14 +24,30 @@ const devConfig = {
 	output: {
 		path: path.resolve(__dirname, '../dist'),
 		filename: 'bundle.[fullhash].js',
-		publicPath: '/' //通常是CDN地址
+		publicPath: '/', //通常是CDN地址
+		// clean: true
 	},
 	plugins: [].concat(webpackConfig.plugins, [
 		new ESLintPlugin({
 			context: path.resolve(__dirname, '../src'),
 			files: ['**/*.ts', '**/*.js', '**/*.tsx'],
-		}
-		),
+		}),
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					// from: path.resolve(__dirname, '../src'),
+					from: 'src',
+					to: 'dist',
+					// to: path.resolve(__dirname, '../public'),
+					// to: path.resolve(__dirname, '../dist'),
+					globOptions: {
+						ignore: [
+							'**.tsx', '**.js', '**.ts', '**.less', '**.css', '**.module.less', '**.d.ts', '**.json', '**.md'
+						]
+					}
+				}
+			]
+		}),
 	]),
 }
 

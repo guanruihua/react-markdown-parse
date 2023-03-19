@@ -8,13 +8,14 @@ const menu: MenuObject[] = [
 	// 	element: <div style={{ color: 'red' }}>Home</div>
 	// },
 	getTestMenuRoute({
-		// fold: false,
+		fold: false,
 		modules: [
 			{ name: 'demo', element: lazyLoad(import('../src/demo')) },
 			{ name: 'Header', element: lazyLoad(import('../src/header/demo')) },
 			{ name: 'Code', element: lazyLoad(import('../src/code/demo')) },
 			{ name: 'Block', element: lazyLoad(import('../src/block/demo')) },
 			{ name: 'Table', element: lazyLoad(import('../src/mTable/demo')) },
+			{ name: 'Image', element: lazyLoad(import('../src/image/demo')) },
 		],
 
 	})

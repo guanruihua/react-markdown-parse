@@ -39,6 +39,6 @@
 	"include": [
 		"components/**/*",
 		"src/**/*",
-		"**/*.d.ts"
+		"typings/*.d.ts"
 	]
 }

@@ -1,23 +1,22 @@
-
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require("path")
-const { ESBuildPlugin } = require('esbuild-loader')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
 	entry: './background/index.tsx',
 	mode: 'development',
-	// stats: 'errors-only',
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, '../src'),
 		},
-		extensions: ['.tsx', '.js', '.ts', '.less', '.css', '.module.less', '.d.ts']
+		extensions: [
+			'.tsx', '.js', '.ts', '.less',
+			'.css', '.module.less', '.d.ts'
+		]
 	},
 	module: {
 		rules: [
 			{
 				test: /\.tsx?$/,
-
 				use: [
 					{
 						loader: 'esbuild-loader',
@@ -98,7 +97,7 @@ module.exports = {
 				test: /\.(jpe?g|png|gif|)$/i,
 				type: 'asset/resource',
 				generator: {
-					filename: 'img/[name][ext]'
+					filename: 'img/[name].[ext]'
 				}
 			},
 			{
@@ -111,10 +110,8 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new ESBuildPlugin(),
-		//数组 放着所有的webpack插件
 		new HtmlWebpackPlugin({
-			title: '0Design',
+			title: 'react-markdown-parse',
 			template: path.resolve(__dirname, '../public/index.html'),
 			filename: 'index.html', //打包后的文件名
 			hash: true,
